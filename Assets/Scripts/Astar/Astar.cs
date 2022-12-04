@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public static class Astar
@@ -14,31 +18,75 @@ public static class Astar
             _nodes.Add(tiles.GridPosition, new Node(tiles));
         }
     }
-    public static void GetPath(Point start)
+    public static Stack<Node> GetPath(Point start, Point goal)
     {
         if (_nodes == null)
         {
             CreateNodes();
         }
         HashSet<Node> openList = new HashSet<Node>();
+        HashSet<Node> closedList = new HashSet<Node>();
+        Stack<Node> finalPath = new Stack<Node>();
         Node currentNode = _nodes[start];
         openList.Add(currentNode);
-        for (int x = -1; x <= 1; x++)
+        while (openList.Count > 0)
         {
-            for (int y = -1; y <= 1; y++)
+            for (int x = -1; x <= 1; x++)
             {
-                Point neighborPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
-                if(LevelManager.Instance.InBounds(neighborPos) && LevelManager.Instance.Tiles[neighborPos].Walkable && neighborPos != currentNode.GridPosition)
+                for (int y = -1; y <= 1; y++)
                 {
-                    Node neighbor = _nodes[neighborPos];
-                    if (!openList.Contains(neighbor))
+                    Point neighborPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
+                    if (LevelManager.Instance.InBounds(neighborPos) && LevelManager.Instance.Tiles[neighborPos].Walkable && neighborPos != currentNode.GridPosition)
                     {
-                        openList.Add(neighbor);
+                        int gCost = 0;
+                        //this should mean direct neighbors should have a g cost of 10
+                        if (Math.Abs(x - y) == 1)
+                        {
+                            gCost = 10;
+                        }
+                        //this means diagonal neighbors have a g cost of 14
+                        else
+                        {
+                            gCost = 14;
+                        }
+                        Node neighbor = _nodes[neighborPos];
+                        if (openList.Contains(neighbor))
+                        {
+                            if (currentNode.G + gCost < neighbor.G)
+                            {
+                                neighbor.CalcValues(currentNode, _nodes[goal], gCost);
+                            }
+                        }
+                        if (!closedList.Contains(neighbor))
+                        {
+                            openList.Add(neighbor);
+                            neighbor.CalcValues(currentNode, _nodes[goal], gCost);
+                        }
+                        //Debug.Log(neighborPos.X + " " + neighborPos.Y);
                     }
-                    neighbor.CalcValues(currentNode);
                 }
-                Debug.Log(neighborPos.X + " " + neighborPos.Y);
+                openList.Remove(currentNode);
+                closedList.Add(currentNode);
+
+                if (openList.Count > 0)
+                {
+                    //sorts by list and orders based on the f value
+                    currentNode = openList.OrderBy(n => n.F).First();
+                }
+                if (currentNode == _nodes[goal])
+                {
+                    finalPath.Push(currentNode);
+                    while (currentNode.parent != null)
+                    {
+                        finalPath.Push(currentNode.parent);
+                        currentNode = currentNode.parent;
+                    }
+                    break;
+                }
             }
+
         }
+        return finalPath;
     }
+
 }

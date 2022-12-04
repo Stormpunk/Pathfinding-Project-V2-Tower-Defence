@@ -16,11 +16,27 @@ public class LevelManager : Singleton<LevelManager>
     private GameObject endPort;
     [SerializeField]
     private Transform map;
+
+    public Portal StartPortal;
+    public Portal EndPortal;    
+
     #endregion
 
     [SerializeField]
     private CameraMove cameraMove;
     private Point mapSize;
+    private Stack<Node> finalPath;
+    public Stack<Node> FinalPath
+    {
+        get
+        {
+            if(finalPath == null)
+            {
+                GeneratePath();
+            }
+            return new Stack<Node>(new Stack<Node>(finalPath));
+        }
+    }
     public Dictionary<Point, TileScript> Tiles { get; set; }
 
     public float Tilesize
@@ -77,12 +93,18 @@ public class LevelManager : Singleton<LevelManager>
     private void SpawnPortal()
     {
         startPortal = new Point(0, 4);
-        Instantiate(startPort, Tiles[startPortal].GetComponent<TileScript>().worldPosition, Quaternion.identity);
-        endPortal = new Point(19, 7);
+        GameObject tmp =  Instantiate(startPort, Tiles[startPortal].GetComponent<TileScript>().worldPosition, Quaternion.identity);
+        StartPortal = tmp.GetComponent<Portal>();
+        StartPortal.name = "Start Portal";
+        endPortal = new Point(6, 9);
         Instantiate(endPort, Tiles[endPortal].GetComponent<TileScript>().worldPosition, Quaternion.identity);
     }
     public bool InBounds(Point pos)
     {
         return pos.X >= 0 && pos.Y >= 0 && pos.X < mapSize.X && pos.Y < mapSize.Y;
+    }
+    public void GeneratePath()
+    {
+        finalPath = Astar.GetPath(startPortal, endPortal);
     }
 }
