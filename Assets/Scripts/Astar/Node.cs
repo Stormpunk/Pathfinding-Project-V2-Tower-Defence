@@ -14,12 +14,14 @@ public class Node
     public int G { get; set; }
     public int H { get; set; }
     public int F { get; set; }
+    public bool isWalkable { get; set; }
 
     public Node (TileScript tileRef)
     {
         TileRef = tileRef;
         GridPosition = tileRef.GridPosition;
         worldPosition = tileRef.worldPosition;
+        isWalkable = tileRef.Walkable;
     }
     public void CalcValues(Node parent, Node goal, int gScore)
     {

@@ -31,6 +31,21 @@ public static class Astar
         openList.Add(currentNode);
         while (openList.Count > 0)
         {
+
+            //sorts by list and orders based on the f value
+            currentNode = openList.OrderBy(n => n.F).First();
+
+            if (currentNode == _nodes[goal])
+            {
+                finalPath.Push(currentNode);
+                while (currentNode.parent != null)
+                {
+                    finalPath.Push(currentNode.parent);
+                    currentNode = currentNode.parent;
+                }
+                break;
+            }
+
             for (int x = -1; x <= 1; x++)
             {
                 for (int y = -1; y <= 1; y++)
@@ -40,9 +55,13 @@ public static class Astar
                     {
                         int gCost = 0;
                         //this should mean direct neighbors should have a g cost of 10
-                        if (Math.Abs(x - y) == 1)
+                        if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable)
                         {
                             gCost = 10;
+                        }
+                        else if (Math.Abs(x-y) == 1 && LevelManager.Instance.Tiles[neighborPos].Walkable)
+                        {
+                            gCost = 3;
                         }
                         //this means diagonal neighbors have a g cost of 14
                         else
@@ -68,21 +87,7 @@ public static class Astar
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                if (openList.Count > 0)
-                {
-                    //sorts by list and orders based on the f value
-                    currentNode = openList.OrderBy(n => n.F).First();
-                }
-                if (currentNode == _nodes[goal])
-                {
-                    finalPath.Push(currentNode);
-                    while (currentNode.parent != null)
-                    {
-                        finalPath.Push(currentNode.parent);
-                        currentNode = currentNode.parent;
-                    }
-                    break;
-                }
+                
             }
 
         }

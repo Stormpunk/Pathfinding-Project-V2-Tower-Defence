@@ -96,7 +96,7 @@ public class LevelManager : Singleton<LevelManager>
         GameObject tmp =  Instantiate(startPort, Tiles[startPortal].GetComponent<TileScript>().worldPosition, Quaternion.identity);
         StartPortal = tmp.GetComponent<Portal>();
         StartPortal.name = "Start Portal";
-        endPortal = new Point(6, 9);
+        endPortal = new Point(19, 7);
         Instantiate(endPort, Tiles[endPortal].GetComponent<TileScript>().worldPosition, Quaternion.identity);
     }
     public bool InBounds(Point pos)

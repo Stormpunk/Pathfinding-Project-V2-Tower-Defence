@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using Mono.Cecil.Cil;
+using Unity.VisualScripting;
 
 public class TileScript : MonoBehaviour
 {
     public Point GridPosition { get; private set; }
     //the position of the tile in the games grid ^
-    public bool Walkable { get; set; }
+    public bool Walkable;
     public bool isEmpty;
     public Vector2 worldPosition
     {
@@ -19,7 +20,14 @@ public class TileScript : MonoBehaviour
     }
     public void Setup(Point gridPos, Vector3 worldPos, Transform parent)
     {
-        Walkable = true;
+        if(this.gameObject.CompareTag("Path"))
+        {
+            Walkable = true;
+        }
+        else
+        {
+            Walkable = false;
+        }
         isEmpty = true;
         transform.SetParent(parent);
         transform.position = worldPos;

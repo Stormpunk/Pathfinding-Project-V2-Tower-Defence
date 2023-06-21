@@ -357,7 +357,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -671,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -878,7 +879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1272.1458, y: 554.97}
+  m_AnchoredPosition: {x: -1000, y: 407}
   m_SizeDelta: {x: 353.3883, y: 162.2699}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1129531505
@@ -1017,7 +1018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1333, y: 461.09332}
+  m_AnchoredPosition: {x: 1002, y: 368}
   m_SizeDelta: {x: 186.4824, y: 325.4191}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404733417
@@ -1332,7 +1333,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1238.9753, y: -549.55786}
+  m_AnchoredPosition: {x: -998, y: -386}
   m_SizeDelta: {x: 378.0491, y: 70.8842}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1896871522
@@ -1465,6 +1466,7 @@ MonoBehaviour:
   endPort: {fileID: 8650350547732677544, guid: c58422fc84227fe4aa5f6b2a63892ced, type: 3}
   map: {fileID: 1756982252}
   StartPortal: {fileID: 0}
+  EndPortal: {fileID: 0}
   cameraMove: {fileID: 519420033}
 --- !u!4 &1904467824
 Transform:
@@ -1655,7 +1657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1333, y: 76}
+  m_AnchoredPosition: {x: 1003, y: -21}
   m_SizeDelta: {x: 186.4824, y: 325.4191}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2012199454
@@ -1798,7 +1800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 0
-  currencyText: {fileID: 0}
+  currencyText: {fileID: 1129531505}
 --- !u!4 &2064722000
 Transform:
   m_ObjectHideFlags: 0

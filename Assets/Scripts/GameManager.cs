@@ -23,22 +23,21 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        
+        currencyText.text = "Current Gold: " + gold.ToString();
     }
     public void PickTower(TowerButt towerButt)
     {
         this.clickedButt = towerButt;
-        gold -= this.clickedButt.cost;
-        if(gold < 0)
+        if(gold >= this.clickedButt.cost)
         {
-            Debug.Log("No Money");
-            DropTower();
-            gold = 0;
+            gold -= this.clickedButt.cost;
+            this.clickedButt = towerButt;
+            MouseHover.Instance.Activate(towerButt.Sprite);
         }
         else
         {
-            this.clickedButt = towerButt;
-            MouseHover.Instance.Activate(towerButt.Sprite);
+            Debug.Log("No Money");
+            DropTower();
         }
     }
     public void BuyTower()
@@ -58,7 +57,7 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator SpawnWave()
     {
         LevelManager.Instance.GeneratePath();
-        int monIndex = Random.Range(0, 2);
+        int monIndex = Random.Range(0, 3);
         string type = string.Empty;
 
         switch (monIndex)
@@ -69,7 +68,7 @@ public class GameManager : Singleton<GameManager>
             case 1:
                 type = "OwlMon";
                 break;
-            default:
+            case 2:
                 type = "DudeMon";
                 break;
         }
