@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,6 +11,10 @@ public class GameManager : Singleton<GameManager>
     public TowerButt clickedButt { get; private set; }
     public TextMeshProUGUI currencyText;
     public ObjectPooler myPool { set; get; }
+    private int playerMaxHealth = 15;
+    [SerializeField]
+    private int playerCurrentHealth;
+    [SerializeField] private Image healthBar;
 
     private void Awake()
     {
@@ -18,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         gold = 500;
+        playerCurrentHealth = playerMaxHealth;
     }
 
     // Update is called once per frame
@@ -40,6 +47,7 @@ public class GameManager : Singleton<GameManager>
             DropTower();
         }
     }
+    #region Buy/Place Towers
     public void BuyTower()
     {
         clickedButt = null;
@@ -50,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         this.clickedButt = null;
         MouseHover.Instance.Deactivate();
     }
+    #endregion
     public void StartWave()
     {
         StartCoroutine(SpawnWave());
@@ -75,5 +84,15 @@ public class GameManager : Singleton<GameManager>
       Mons mons =  myPool.GetObject(type).GetComponent<Mons>();
         mons.Spawn();
         yield return new WaitForSeconds(2.5f);
+    }
+    public void TakeDamage(int damage)
+    {
+        playerCurrentHealth -= damage;
+        healthBar.fillAmount = (float)playerCurrentHealth / playerMaxHealth; 
+        Debug.Log("Taking Damage in amount " + damage.ToString());
+    }
+    public void AddGold (int goldToAdd)
+    {
+        gold += goldToAdd;
     }
 }

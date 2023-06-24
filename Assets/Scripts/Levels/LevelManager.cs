@@ -85,7 +85,7 @@ public class LevelManager : Singleton<LevelManager>
     }
     private string[] ReadLevelText()
     {
-        TextAsset bindData = Resources.Load("Level1") as TextAsset;
+        TextAsset bindData = Resources.Load("Level2") as TextAsset;
 
         string data = bindData.text.Replace(Environment.NewLine, string.Empty);
         return data.Split('-');

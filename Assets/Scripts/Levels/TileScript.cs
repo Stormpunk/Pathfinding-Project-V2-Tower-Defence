@@ -40,9 +40,16 @@ public class TileScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && isEmpty == true)
             {
-                PlaceTower();
-                isEmpty = false;
-                Walkable = false;
+                if (!Walkable)
+                {
+                    PlaceTower();
+                    isEmpty = false;
+                    Walkable = false;
+                }
+                else
+                {
+                    Debug.LogError("Can't place on a 'Path' Tile!");
+                }
             }
         }
         if (Input.GetMouseButton(1))
@@ -57,6 +64,7 @@ public class TileScript : MonoBehaviour
         GameObject tower = (GameObject)Instantiate(GameManager.Instance.clickedButt.TowerPrefab, transform.position, Quaternion.identity);
         tower.GetComponent<SpriteRenderer>().sortingOrder = GridPosition.Y;
         tower.transform.SetParent(transform);
+        //tower.transform.parent.
         GameManager.Instance.BuyTower();
     }
 }

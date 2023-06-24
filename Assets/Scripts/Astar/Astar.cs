@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class Astar
 {
@@ -18,12 +19,18 @@ public static class Astar
             _nodes.Add(tiles.GridPosition, new Node(tiles));
         }
     }
+    private static bool IntersectsCollider(Vector2 pos)
+    {
+        Collider2D[] colliders = Physics2D.OverlapPointAll(pos);
+        return colliders.Length > 0;
+    }
     public static Stack<Node> GetPath(Point start, Point goal)
     {
         if (_nodes == null)
         {
             CreateNodes();
         }
+
         HashSet<Node> openList = new HashSet<Node>();
         HashSet<Node> closedList = new HashSet<Node>();
         Stack<Node> finalPath = new Stack<Node>();
@@ -53,45 +60,51 @@ public static class Astar
                     Point neighborPos = new Point(currentNode.GridPosition.X - x, currentNode.GridPosition.Y - y);
                     if (LevelManager.Instance.InBounds(neighborPos) && LevelManager.Instance.Tiles[neighborPos].Walkable && neighborPos != currentNode.GridPosition)
                     {
+                        Vector2 neighborWorldPos = new Vector2(neighborPos.X, neighborPos.Y);
                         int gCost = 0;
                         //this should mean direct neighbors should have a g cost of 10
-                        if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable)
+                        if (!IntersectsCollider(neighborWorldPos))
                         {
-                            gCost = 10;
-                        }
-                        else if (Math.Abs(x-y) == 1 && LevelManager.Instance.Tiles[neighborPos].Walkable)
-                        {
-                            gCost = 3;
-                        }
-                        //this means diagonal neighbors have a g cost of 14
-                        else
-                        {
-                            gCost = 14;
-                        }
-                        Node neighbor = _nodes[neighborPos];
-                        if (openList.Contains(neighbor))
-                        {
-                            if (currentNode.G + gCost < neighbor.G)
+                            if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable)
                             {
+                                gCost = 10;
+                            }
+                            else if (Math.Abs(x - y) == 1 && LevelManager.Instance.Tiles[neighborPos].Walkable)
+                            {
+                                gCost = 14;
+                            }
+                            //this means diagonal neighbors have a g cost of 14
+                            else
+                            {
+                                gCost = 20;
+                            }
+                            Node neighbor = _nodes[neighborPos];
+                            if (openList.Contains(neighbor))
+                            {
+                                if (currentNode.G + gCost < neighbor.G)
+                                {
+                                    neighbor.CalcValues(currentNode, _nodes[goal], gCost);
+                                }
+                            }
+                            if (!closedList.Contains(neighbor))
+                            {
+                                openList.Add(neighbor);
                                 neighbor.CalcValues(currentNode, _nodes[goal], gCost);
                             }
+                            //Debug.Log(neighborPos.X + " " + neighborPos.Y);
                         }
-                        if (!closedList.Contains(neighbor))
+                        else
                         {
-                            openList.Add(neighbor);
-                            neighbor.CalcValues(currentNode, _nodes[goal], gCost);
+                            gCost = 300;
                         }
-                        //Debug.Log(neighborPos.X + " " + neighborPos.Y);
                     }
                 }
-                openList.Remove(currentNode);
-                closedList.Add(currentNode);
-
-                
             }
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
 
         }
         return finalPath;
     }
-
+  
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1735598533567540418}
   - component: {fileID: 6036456285056693678}
+  - component: {fileID: -4113152724847038459}
   m_Layer: 0
   m_Name: BeamTower
   m_TagString: Untagged
@@ -84,3 +85,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4113152724847038459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612894470923698854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c4d582d55a0ef47a06b14febb492d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisTower: {fileID: 11400000, guid: 2bd8b5a4eb299834fa668f4209f55d83, type: 2}
