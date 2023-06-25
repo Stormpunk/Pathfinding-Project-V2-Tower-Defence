@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: BeamTower
   m_EditorClassIdentifier: 
   towerRange: 4
+  damage: 0
+  attackTime: 0
+  damageInterval: 1
   engagedMons: []

@@ -11,6 +11,7 @@ public class TileScript : MonoBehaviour
     //the position of the tile in the games grid ^
     public bool Walkable;
     public bool isEmpty;
+    public bool isWithinTowerRange = false;
     public Vector2 worldPosition
     {
         get
@@ -40,16 +41,9 @@ public class TileScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && isEmpty == true)
             {
-                if (!Walkable)
-                {
-                    PlaceTower();
-                    isEmpty = false;
-                    Walkable = false;
-                }
-                else
-                {
-                    Debug.LogError("Can't place on a 'Path' Tile!");
-                }
+                PlaceTower();
+                isEmpty = false;
+                Walkable = false;
             }
         }
         if (Input.GetMouseButton(1))
@@ -64,7 +58,6 @@ public class TileScript : MonoBehaviour
         GameObject tower = (GameObject)Instantiate(GameManager.Instance.clickedButt.TowerPrefab, transform.position, Quaternion.identity);
         tower.GetComponent<SpriteRenderer>().sortingOrder = GridPosition.Y;
         tower.transform.SetParent(transform);
-        //tower.transform.parent.
         GameManager.Instance.BuyTower();
     }
 }

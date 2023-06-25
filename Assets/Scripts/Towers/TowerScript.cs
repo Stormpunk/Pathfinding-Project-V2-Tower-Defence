@@ -9,20 +9,25 @@ public class TowerScript : MonoBehaviour
     #region Attack Delay Times
     private float attackDelay, damageInterval;
     #endregion
-    public static float TowerRange { get; private set; }
-
+    public float TowerRange { get; private set; }
+    private CircleCollider2D circleCollider; // Reference to the CircleCollider2D component
     // Start is called before the first frame update
     void Start()
     {
         attackDelay = thisTower.attackTime;
         damageInterval = thisTower.damageInterval;
         TowerRange = thisTower.towerRange;
+
+        // Get the CircleCollider2D component attached to the tower
+        circleCollider = GetComponent<CircleCollider2D>();
+        circleCollider.radius = TowerRange; // Set the radius of the circle collider to the tower's range
     }
 
     // Update is called once per frame
     void Update()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, thisTower.towerRange);
+        // Use Physics2D.OverlapCircleAll method if needed
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, circleCollider.radius);
         foreach (Collider2D col in colliders)
         {
             if (col.CompareTag("Mon") && attackDelay == damageInterval)
@@ -31,14 +36,10 @@ public class TowerScript : MonoBehaviour
                 enemy.GetComponent<Mons>().DamageMe(1);
                 attackDelay = 0;
             }
-            else
-            {
-                Debug.Log("Can't attack yet");
-            }
         }
         #region Attack Timer Delay
         attackDelay += Time.deltaTime;
-        if (attackDelay  >= damageInterval)
+        if (attackDelay >= damageInterval)
         {
             attackDelay = damageInterval;
         }

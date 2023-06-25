@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 1735598533567540418}
   - component: {fileID: 6036456285056693678}
   - component: {fileID: -4113152724847038459}
+  - component: {fileID: 2019769625371021333}
   m_Layer: 0
   m_Name: BeamTower
-  m_TagString: Untagged
+  m_TagString: Towers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,3 +99,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisTower: {fileID: 11400000, guid: 2bd8b5a4eb299834fa668f4209f55d83, type: 2}
+--- !u!58 &2019769625371021333
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4612894470923698854}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.68266666, y: -0.1706667}
+  serializedVersion: 2
+  m_Radius: 0.85333335

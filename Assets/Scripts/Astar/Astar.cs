@@ -16,13 +16,12 @@ public static class Astar
         _nodes = new Dictionary<Point, Node>();
         foreach (TileScript tiles in LevelManager.Instance.Tiles.Values)
         {
-            _nodes.Add(tiles.GridPosition, new Node(tiles));
+            Point gridPosition = tiles.GridPosition;
+            bool walkable = !Physics2D.OverlapPoint(new Vector2(gridPosition.X, gridPosition.Y));
+            Node node = new Node(tiles);
+            node.isWalkable = walkable;
+            _nodes.Add(gridPosition, node);
         }
-    }
-    private static bool IntersectsCollider(Vector2 pos)
-    {
-        Collider2D[] colliders = Physics2D.OverlapPointAll(pos);
-        return colliders.Length > 0;
     }
     public static Stack<Node> GetPath(Point start, Point goal)
     {
@@ -63,8 +62,6 @@ public static class Astar
                         Vector2 neighborWorldPos = new Vector2(neighborPos.X, neighborPos.Y);
                         int gCost = 0;
                         //this should mean direct neighbors should have a g cost of 10
-                        if (!IntersectsCollider(neighborWorldPos))
-                        {
                             if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable)
                             {
                                 gCost = 10;
@@ -76,7 +73,7 @@ public static class Astar
                             //this means diagonal neighbors have a g cost of 14
                             else
                             {
-                                gCost = 20;
+                                gCost = 300;
                             }
                             Node neighbor = _nodes[neighborPos];
                             if (openList.Contains(neighbor))
@@ -92,11 +89,6 @@ public static class Astar
                                 neighbor.CalcValues(currentNode, _nodes[goal], gCost);
                             }
                             //Debug.Log(neighborPos.X + " " + neighborPos.Y);
-                        }
-                        else
-                        {
-                            gCost = 300;
-                        }
                     }
                 }
             }
