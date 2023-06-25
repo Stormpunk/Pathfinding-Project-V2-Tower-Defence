@@ -16,6 +16,7 @@ public class Node
     public int F { get; set; }
     public bool isWalkable { get; set; }
     public bool empty { get; set; }
+    public bool withinTowerRange { get; set; }
 
     public Node (TileScript tileRef)
     {
@@ -23,6 +24,7 @@ public class Node
         GridPosition = tileRef.GridPosition;
         worldPosition = tileRef.worldPosition;
         isWalkable = tileRef.Walkable;
+        withinTowerRange = tileRef.isWithinTowerRange;
         //assume all nodes are walkable initially
     }
     public void CalcValues(Node parent, Node goal, int gScore)

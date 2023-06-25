@@ -62,17 +62,17 @@ public static class Astar
                         Vector2 neighborWorldPos = new Vector2(neighborPos.X, neighborPos.Y);
                         int gCost = 0;
                         //this should mean direct neighbors should have a g cost of 10
-                            if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable)
+                            if (Math.Abs(x - y) == 1 && !LevelManager.Instance.Tiles[neighborPos].Walkable && !LevelManager.Instance.Tiles[neighborPos].isWithinTowerRange)
                             {
                                 gCost = 10;
                             }
-                            else if (Math.Abs(x - y) == 1 && LevelManager.Instance.Tiles[neighborPos].Walkable)
+                            else if (Math.Abs(x - y) == 1 && LevelManager.Instance.Tiles[neighborPos].Walkable && !LevelManager.Instance.Tiles[neighborPos].isWithinTowerRange)
                             {
                                 gCost = 14;
                             }
                             //this means diagonal neighbors have a g cost of 14
-                            else
-                            {
+                            else if (LevelManager.Instance.Tiles[neighborPos].isWithinTowerRange)
+                            { //give a large cost to nodes within range of a tower
                                 gCost = 300;
                             }
                             Node neighbor = _nodes[neighborPos];
